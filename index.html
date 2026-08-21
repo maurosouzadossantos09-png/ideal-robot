@@ -1,0 +1,161 @@
+initial-scale=1.0">
+  <title>Conversor Universal Gratuito</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur py-4 px-6 text-center">
+    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+      QuickConvert
+    </h1>
+    <p class="text-sm text-slate-400 mt-1">Converta arquivos e URLs gratuitamente e sem limites</p>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto p-6 w-full space-y-8">
+
+    <!-- Grid de Ferramentas -->
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <!-- Card 1: Conversor de Imagens -->
+      <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-blue-400 mb-2">1. Conversor de Imagem</h2>
+          <p class="text-xs text-slate-400 mb-4">Converta PNG, JPG ou WebP instantaneamente.</p>
+          
+          <input type="file" id="imgInput" accept="image/*" class="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer mb-4"/>
+          
+          <div class="flex gap-2 mb-4">
+            <select id="imgFormat" class="bg-slate-900 border border-slate-700 text-sm rounded-lg p-2.5 w-full text-slate-200 focus:outline-none focus:border-blue-500">
+              <option value="image/png">Converter para PNG</option>
+              <option value="image/jpeg">Converter para JPG</option>
+              <option value="image/webp">Converter para WebP</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="convertImage()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+          Converter & Baixar
+        </button>
+      </div>
+
+      <!-- Card 2: URL / Webpage para PDF -->
+      <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-indigo-400 mb-2">2. URL para PDF</h2>
+          <p class="text-xs text-slate-400 mb-4">Transforme o conteúdo visual de um site em PDF.</p>
+          
+          <input type="url" id="urlInput" placeholder="https://exemplo.com" class="bg-slate-900 border border-slate-700 text-sm rounded-lg p-2.5 w-full text-slate-200 focus:outline-none focus:border-indigo-500 mb-4"/>
+        </div>
+
+        <button onclick="convertUrlToPdf()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+          Gerar PDF da URL
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Área do Pix para Doação -->
+    <div class="bg-gradient-to-br from-emerald-900/30 to-slate-800 border border-emerald-500/30 rounded-2xl p-6 text-center shadow-xl">
+      <h3 class="text-lg font-semibold text-emerald-400">Gostou da ferramenta? Apoie o projeto! 🚀</h3>
+      <p class="text-xs text-slate-300 mt-1 max-w-md mx-auto">
+        Este site é 100% gratuito e mantido com carinho. Se ajudou você, considere fazer uma contribuição de qualquer valor via Pix!
+      </p>
+
+      <div class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div class="bg-slate-900 border border-slate-700 text-slate-300 text-xs py-2.5 px-4 rounded-lg font-mono break-all max-w-xs">
+          d7ab0ba9-fe8d-4cbe-9784-afcb998f2cda
+        </div>
+        <button onclick="copyPix()" id="copyBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center gap-2">
+          <span>Copiar Chave Pix</span>
+        </button>
+      </div>
+      <p class="text-[10px] text-slate-500 mt-2">Nubank - Mauro S Santos</p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center text-xs text-slate-600 border-t border-slate-800">
+    Desenvolvido com o apoio da comunidade.
+  </footer>
+
+  <!-- Scripts das Lógicas -->
+  <script>
+    // Conversão de Imagens no Navegador
+    function convertImage() {
+      const fileInput = document.getElementById('imgInput');
+      const format = document.getElementById('imgFormat').value;
+
+      if (!fileInput.files[0]) {
+        alert('Por favor, selecione uma imagem primeiro!');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+
+          // Fundo branco caso converta PNG transparente para JPG
+          if (format === 'image/jpeg') {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
+
+          ctx.drawImage(img, 0, 0);
+
+          const ext = format.split('/')[1];
+          const a = document.createElement('a');
+          a.href = canvas.toDataURL(format, 0.9);
+          a.download = `convertido.${ext}`;
+          a.click();
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Captura Básica de URL para PDF
+    function convertUrlToPdf() {
+      const url = document.getElementById('urlInput').value;
+      if (!url) {
+        alert('Por favor, digite uma URL válida!');
+        return;
+      }
+
+      const container = document.createElement('div');
+      container.innerHTML = `<div style="padding: 20px; font-family: sans-serif;">
+        <h1>Documento Gerado da URL</h1>
+        <p><strong>Fonte:</strong> <a href="${url}">${url}</a></p>
+        <hr/>
+        <p>Conteúdo capturado via QuickConvert em ${new Date().toLocaleDateString('pt-BR')}.</p>
+      </div>`;
+
+      html2pdf().from(container).save('pagina.pdf');
+    }
+
+    // Função de Copiar Chave Pix
+    function copyPix() {
+      const pixKey = "d7ab0ba9-fe8d-4cbe-9784-afcb998f2cda";
+      navigator.clipboard.writeText(pixKey).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.innerText = "¡Copiado com Sucesso!";
+        btn.classList.replace('bg-emerald-600', 'bg-slate-700');
+        setTimeout(() => {
+          btn.innerText = "Copiar Chave Pix";
+          btn.classList.replace('bg-slate-700', 'bg-emerald-600');
+        }, 2500);
+      });
+    }
+  </script>
+</body>
+</html>
