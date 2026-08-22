@@ -1,94 +1,106 @@
-<!DOCTYPE html>
+ 
+    <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickConvert - Ferramentas Gratuitas</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickConvert - Ferramentas Gratuitas</title>
+
+  <!-- Tags de Prévia para Redes Sociais (Facebook, WhatsApp, LinkedIn) -->
+  <meta property="og:title" content="QuickConvert - Ferramentas Gratuitas" />
+  <meta property="og:description" content="Converta vídeos do YouTube para MP3, gere PDFs a partir de links e muito mais!" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=630&fit=crop" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://maurosouzadossantos09-png.github.io/ideal-robot/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Scripts e Estilos Externos -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans">
 
-    <!-- Cabeçalho -->
-    <header class="max-w-4xl mx-auto mb-8 text-center">
-        <h1 class="text-3xl font-bold text-emerald-400 mb-2">QuickConvert</h1>
-        <p class="text-slate-400">Suas ferramentas online rápidas, gratuitas e sem complicação.</p>
-    </header>
+  <!-- Cabeçalho -->
+  <header class="py-6 text-center border-b border-slate-800">
+    <h1 class="text-3xl font-extrabold text-emerald-400">QuickConvert</h1>
+    <p class="text-sm text-slate-400 mt-1">Suas ferramentas online rápidas, gratuitas e sem complicação.</p>
+  </header>
 
-    <main class="max-w-4xl mx-auto grid gap-6 md:grid-cols-2">
+  <!-- Conteúdo Principal -->
+  <main class="max-w-xl mx-auto px-4 py-8 w-full space-y-6">
 
-        <!-- Ferramenta 1: MP3 Converter -->
-        <section class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
-            <h2 class="text-xl font-semibold text-emerald-400 mb-3">Vídeo para MP3</h2>
-            <p class="text-sm text-slate-400 mb-4">Cole o link do vídeo para converter o áudio em MP3.</p>
-            <input type="url" id="videoUrl" placeholder="https://..." class="w-full p-2.5 mb-3 rounded bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
-            <button onclick="convertMp3()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded transition-colors">Baixar MP3</button>
-        </section>
+    <!-- Card: Vídeo para MP3 -->
+    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+      <h2 class="text-xl font-bold text-emerald-400 mb-2">Vídeo para MP3</h2>
+      <p class="text-sm text-slate-300 mb-4">Cole o link do vídeo para converter o áudio em MP3.</p>
+      
+      <input type="url" id="ytUrl" placeholder="https://..." class="w-full p-3 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-emerald-400 mb-3 text-sm">
+      
+      <button onclick="convertMp3()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-lg transition-colors">
+        Baixar MP3
+      </button>
+    </div>
 
-        <!-- Ferramenta 2: URL para PDF -->
-        <section class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
-            <h2 class="text-xl font-semibold text-emerald-400 mb-3">Gerador de PDF por URL</h2>
-            <p class="text-sm text-slate-400 mb-4">Insira o link de uma página para gerar um documento PDF.</p>
-            <input type="url" id="pdfUrl" placeholder="https://..." class="w-full p-2.5 mb-3 rounded bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
-            <button onclick="generatePdf()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded transition-colors">Gerar PDF</button>
-        </section>
+    <!-- Card: Gerador de PDF -->
+    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+      <h2 class="text-xl font-bold text-emerald-400 mb-2">Gerador de PDF por URL</h2>
+      <p class="text-sm text-slate-300 mb-4">Insira o link de uma página para gerar um documento PDF.</p>
+      
+      <input type="url" id="pdfUrl" placeholder="https://..." class="w-full p-3 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-emerald-400 mb-3 text-sm">
+      
+      <button onclick="generatePdf()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-lg transition-colors">
+        Gerar PDF
+      </button>
+    </div>
 
-        <!-- Apoie / Chave Pix -->
-        <section class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg md:col-span-2 text-center">
-            <h2 class="text-xl font-semibold text-emerald-400 mb-2">Gostou das ferramentas?</h2>
-            <p class="text-sm text-slate-400 mb-4">Apoie o projeto fazendo uma contribuição via Pix!</p>
-            <button id="pixBtn" onclick="copyPix()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-6 py-2.5 rounded font-medium border border-slate-600 transition-colors">
-                Copiar Chave Pix
-            </button>
-        </section>
+    <!-- Card: Doação / Apoie o Projeto -->
+    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg text-center">
+      <h2 class="text-lg font-bold text-emerald-400 mb-1">Gostou da ferramenta?</h2>
+      <p class="text-xs text-slate-300 mb-4">Ajude a manter este site online com qualquer valor via Pix.</p>
+      
+      <button onclick="copyPix()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-semibold py-2 px-4 rounded-lg border border-slate-600 transition-colors">
+        Copiar Chave Pix
+      </button>
+      <p id="pixMsg" class="text-xs text-emerald-400 mt-2 hidden">Chave Pix copiada com sucesso!</p>
+    </div>
 
-    </main>
+  </main>
 
-    <script>
-        // Função Vídeo para MP3
-        function convertMp3() {
-            const url = document.getElementById('videoUrl').value;
-            if (!url) {
-                alert('Por favor, insira a URL do vídeo!');
-                return;
-            }
-            window.open('https://y2mate.is/', '_blank');
-        }
+  <!-- Rodapé -->
+  <footer class="py-4 text-center text-xs text-slate-500 border-t border-slate-800">
+    © QuickConvert - Todos os direitos reservados.
+  </footer>
 
-        // Função Gerar PDF
-        function generatePdf() {
-            const url = document.getElementById('pdfUrl').value;
-            if (!url) {
-                alert('Por favor, insira uma URL válida!');
-                return;
-            }
+  <!-- Scripts Lógicos -->
+  <script>
+    function convertMp3() {
+      const url = document.getElementById('ytUrl').value.trim();
+      if (!url) {
+        alert('Por favor, insira o link de um vídeo do YouTube.');
+        return;
+      }
+      window.open('https://en2.y2mate.is', '_blank');
+    }
 
-            const container = document.createElement('div');
-            container.innerHTML = `
-                <div style="padding: 20px; font-family: sans-serif;">
-                    <h1>Documento Gerado da URL</h1>
-                    <p><strong>Fonte:</strong> <a href="${url}">${url}</a></p>
-                    <hr/>
-                    <p>Conteúdo capturado via QuickConvert.</p>
-                </div>`;
+    function generatePdf() {
+      const url = document.getElementById('ytUrl') ? document.getElementById('pdfUrl').value.trim() : '';
+      if (!url) {
+        alert('Por favor, insira uma URL válida.');
+        return;
+      }
+      window.open(url, '_blank');
+    }
 
-            html2pdf().from(container).save('pagina.pdf');
-        }
+    function copyPix() {
+      const pixKey = "maurosouzadossantos09@gmail.com";
+      navigator.clipboard.writeText(pixKey).then(() => {
+        const msg = document.getElementById('pixMsg');
+        msg.classList.remove('hidden');
+        setTimeout(() => { msg.classList.add('hidden'); }, 3000);
+      });
+    }
+  </script>
 
-        // Função Copiar Pix
-        function copyPix() {
-            const pixKey = "d7ab0ba9-fe8d-4cbe-9860-9bfba43eb526";
-            navigator.clipboard.writeText(pixKey);
-
-            const btn = document.getElementById('pixBtn');
-            btn.innerText = "¡Copiado com Sucesso!";
-            btn.classList.replace('bg-slate-700', 'bg-emerald-600');
-
-            setTimeout(() => {
-                btn.innerText = "Copiar Chave Pix";
-                btn.classList.replace('bg-emerald-600', 'bg-slate-700');
-            }, 2500);
-        }
-    </script>
 </body>
 </html>
